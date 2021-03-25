@@ -47,7 +47,9 @@ namespace WebApiTest.Services
                 summary.Totals.Tax = subTotal * TaxRate;
                 summary.Totals.Shipping = Shipping;
 
-                summary.OrderingPersonID = personIDs.Single();
+                //Cannot use Single() here. Single()  can be used only when there is a single Data. 
+                //summary.OrderingPersonID = personIDs.Single();
+                summary.OrderingPersonID = order.OrderingPersonID; 
 
                 summary.OrderPersonIDs = personIDs;
             }

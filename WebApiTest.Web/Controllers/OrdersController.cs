@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using System;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,9 +32,17 @@ namespace WebApiTest.Web.Controllers
         /// <returns></returns>
         [Route("{orderID:int}")]
         [HttpGet]
-        public OrderItemsModel Get( int orderID )
+        public ActionResult<OrderItemsModel> Get( int orderID )
         {
-            return _orderItemsService.Get( orderID );
+            try
+            {
+                return _orderItemsService.Get(orderID);
+            }
+            catch (Exception  ex)
+            {
+                return NotFound();
+            }
+            
         }
 
         /// <summary>
@@ -53,6 +63,14 @@ namespace WebApiTest.Web.Controllers
             {
                 throw new BadHttpRequestException( ve.Message );
             }
+        }
+
+        [Route("{orderID:int}")]
+        [HttpDelete]
+        public Task<string> Delete (int orderID)
+        {
+
+                return  _orderItemsService.DeleteAsync(orderID);
         }
     }
 }
